@@ -1,4 +1,4 @@
-export const cardValues = [
+export const CARD_VALUES = [
   "ace",
   "two",
   "three",
@@ -14,6 +14,6 @@ export const cardValues = [
   "king",
 ];
 
-export const cardChar = {};
+export const SUIT_RED_COLOR = "#b8000a";
 
-export type cardSuits = "HEATS" | "DIAMONDS" | "SPADES" | "CLUBS";
+export const SUIT_BLACK_COLOR = "#000000";

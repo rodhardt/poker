@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { SUIT_BLACK_COLOR, SUIT_RED_COLOR } from "../constants";
 
 export default createGlobalStyle`
     * {
@@ -17,6 +18,8 @@ export default createGlobalStyle`
         --darkerGray: #303030;
         --mainBrown: #4D3636;
         --mainBlack: #101010;
+        --suitRed: ${SUIT_RED_COLOR};
+        --suitBlack: ${SUIT_BLACK_COLOR};
     }
 
     #root {
