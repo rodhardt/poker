@@ -2,7 +2,7 @@ import { SingleCard, CardSuits } from "../types";
 
 export const getFlushCards = (
   result: SingleCard[]
-): [CardSuits, number[]][] => {
+): [CardSuits, number[]][] | undefined => {
   const groupedBySuits: Record<CardSuits, number[]> = {
     HEARTS: [],
     DIAMONDS: [],
@@ -16,10 +16,14 @@ export const getFlushCards = (
     (cardsBySuit) => cardsBySuit[1].length >= 5
   );
 
-  return flushOnly as [CardSuits, number[]][];
+  return flushOnly.length > 0
+    ? (flushOnly as [CardSuits, number[]][])
+    : undefined;
 };
 
-export const getStraightCards = (result: SingleCard[]): SingleCard[] => {
+export const getStraightCards = (
+  result: SingleCard[]
+): SingleCard[] | undefined => {
   const uniqueSortedCards = result
     .filter(
       (card, index, array) =>
@@ -45,7 +49,9 @@ export const getStraightCards = (result: SingleCard[]): SingleCard[] => {
       sequenceCards.push(card);
       sequenceCards.length > 5 && sequenceCards.shift();
     } else {
-      sequenceCards.length < 5 && sequenceCards.splice(0, sequenceCards.length);
+      sequenceCards.length < 5 &&
+        sequenceCards.splice(0, sequenceCards.length) &&
+        sequenceCards.push(card);
     }
   });
 
@@ -56,5 +62,5 @@ export const getStraightCards = (result: SingleCard[]): SingleCard[] => {
 
   const finalSequence = sequenceCards.slice(-5);
 
-  return finalSequence.length === 5 ? finalSequence : [];
+  return finalSequence.length === 5 ? finalSequence : undefined;
 };

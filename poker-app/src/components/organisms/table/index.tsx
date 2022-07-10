@@ -28,29 +28,23 @@ export const TableGame: React.FC<TableGameProps> = ({}) => {
     { number: 13, suit: "HEARTS" },
   ];
 
-  console.log(
-    getStraightCards([
-      { number: 1, suit: "HEARTS" },
-      { number: 2, suit: "HEARTS" },
-      { number: 4, suit: "SPADES" },
-      { number: 3, suit: "DIAMONDS" },
-      { number: 6, suit: "HEARTS" },
-      { number: 5, suit: "HEARTS" },
-      { number: 7, suit: "HEARTS" },
-    ])
-  );
+  const flushCards = getFlushCards([
+    { number: 7, suit: "HEARTS" },
+    { number: 7, suit: "HEARTS" },
+    { number: 1, suit: "SPADES" },
+    { number: 11, suit: "SPADES" },
+    { number: 13, suit: "SPADES" },
+    { number: 12, suit: "SPADES" },
+    { number: 10, suit: "SPADES" },
+  ]);
 
-  console.log(
-    getStraightCards([
-      { number: 7, suit: "HEARTS" },
-      { number: 7, suit: "HEARTS" },
-      { number: 1, suit: "SPADES" },
-      { number: 11, suit: "DIAMONDS" },
-      { number: 13, suit: "HEARTS" },
-      { number: 12, suit: "HEARTS" },
-      { number: 10, suit: "HEARTS" },
-    ])
-  );
+  const builtCards =
+    flushCards &&
+    flushCards[0][1].map((value) => {
+      return { suit: flushCards[0][0], number: value };
+    });
+
+  const straightFlush = builtCards ? getStraightCards(builtCards) : undefined;
 
   return (
     <TableContainer>

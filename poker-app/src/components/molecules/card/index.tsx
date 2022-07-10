@@ -14,6 +14,7 @@ export type CardProps = {
 };
 
 export const Card: React.FC<CardProps> = ({ number, suit }) => {
+  // mapping number of suits on center of cards and dividing by [sides, center]
   const suitsColMap = useMemo(
     () => [
       [0, 1],
@@ -28,7 +29,7 @@ export const Card: React.FC<CardProps> = ({ number, suit }) => {
       [4, 2],
     ],
     []
-  ); // [side, center] counter for suits
+  );
 
   const renderColumn = useCallback(
     (variant: "SIDE" | "CENTER") => {
