@@ -1,7 +1,6 @@
 import { CardSuits, SingleCard } from "../types";
 
 export const CARD_VALUES = [
-  "ace",
   "two",
   "three",
   "four",
@@ -14,6 +13,7 @@ export const CARD_VALUES = [
   "jack",
   "queen",
   "king",
+  "ace",
 ];
 
 export const SUIT_RED_COLOR = "#b8000a";
@@ -21,7 +21,6 @@ export const SUIT_RED_COLOR = "#b8000a";
 export const SUIT_BLACK_COLOR = "#000000";
 
 export const FULL_DECK: SingleCard[] = [
-  { number: 1, suit: "HEARTS" },
   { number: 2, suit: "HEARTS" },
   { number: 3, suit: "HEARTS" },
   { number: 4, suit: "HEARTS" },
@@ -34,7 +33,7 @@ export const FULL_DECK: SingleCard[] = [
   { number: 11, suit: "HEARTS" },
   { number: 12, suit: "HEARTS" },
   { number: 13, suit: "HEARTS" },
-  { number: 1, suit: "DIAMONDS" },
+  { number: 14, suit: "HEARTS" },
   { number: 2, suit: "DIAMONDS" },
   { number: 3, suit: "DIAMONDS" },
   { number: 4, suit: "DIAMONDS" },
@@ -47,7 +46,7 @@ export const FULL_DECK: SingleCard[] = [
   { number: 11, suit: "DIAMONDS" },
   { number: 12, suit: "DIAMONDS" },
   { number: 13, suit: "DIAMONDS" },
-  { number: 1, suit: "CLUBS" },
+  { number: 14, suit: "DIAMONDS" },
   { number: 2, suit: "CLUBS" },
   { number: 3, suit: "CLUBS" },
   { number: 4, suit: "CLUBS" },
@@ -60,7 +59,7 @@ export const FULL_DECK: SingleCard[] = [
   { number: 11, suit: "CLUBS" },
   { number: 12, suit: "CLUBS" },
   { number: 13, suit: "CLUBS" },
-  { number: 1, suit: "SPADES" },
+  { number: 14, suit: "CLUBS" },
   { number: 2, suit: "SPADES" },
   { number: 3, suit: "SPADES" },
   { number: 4, suit: "SPADES" },
@@ -73,4 +72,5 @@ export const FULL_DECK: SingleCard[] = [
   { number: 11, suit: "SPADES" },
   { number: 12, suit: "SPADES" },
   { number: 13, suit: "SPADES" },
+  { number: 14, suit: "SPADES" },
 ];

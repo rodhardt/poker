@@ -23,7 +23,7 @@ export const CardSuit: React.FC<CardSuitProps> = ({
   size = 18,
   isReverse,
 }) => {
-  const currentSuitIcon = useMemo(() => {
+  const currentSuitIcon = () => {
     const mappedIcons = {
       HEARTS: <BsFillSuitHeartFill color={SUIT_RED_COLOR} size={size} />,
       DIAMONDS: <BsFillSuitDiamondFill color={SUIT_RED_COLOR} size={size} />,
@@ -31,9 +31,11 @@ export const CardSuit: React.FC<CardSuitProps> = ({
       CLUBS: <BsFillSuitClubFill color={SUIT_BLACK_COLOR} size={size} />,
     };
     return mappedIcons[suit];
-  }, [suit, size]);
+  };
 
-  return <SuitContainer isReverse={isReverse}>{currentSuitIcon}</SuitContainer>;
+  return (
+    <SuitContainer isReverse={isReverse}>{currentSuitIcon()}</SuitContainer>
+  );
 };
 
 export default CardSuit;

@@ -20,8 +20,9 @@ export const CardFaceImage: React.FC<CardFaceImageProps> = ({
   width,
   height,
 }) => {
-  const renderImage = useMemo(() => {
-    const color = getSuitColor(suit);
+  const color = getSuitColor(suit);
+
+  const renderImage = () => {
     switch (number) {
       case 11:
         return <JacksImage color={color} width={width} height={height} />;
@@ -30,9 +31,9 @@ export const CardFaceImage: React.FC<CardFaceImageProps> = ({
       case 13:
         return <KingsImage color={color} width={width} height={height} />;
     }
-  }, [number, suit, width, height]);
+  };
 
-  return <>{renderImage}</>;
+  return <>{renderImage()}</>;
 };
 
 export default CardFaceImage;

@@ -12,29 +12,23 @@ export type CardValueProps = {
   isReverse?: boolean;
 };
 
-export const CardValue: React.FC<CardValueProps> = ({
-  number,
-  suit,
-  isReverse,
-}) => {
-  const suitColor = useMemo(() => {
-    return getSuitColor(suit);
-  }, [suit]);
+export const CardValue: React.FC<CardValueProps> = ({ number, suit, isReverse }) => {
+  const suitColor = getSuitColor(suit);
 
-  const symbol = useMemo(() => {
+  const symbol = () => {
     const numberToKey = `${number}`;
     const symbolsMap: { [key: string]: string } = {
-      "1": "A",
       "11": "J",
       "12": "Q",
       "13": "K",
+      "14": "A",
     };
     return symbolsMap[numberToKey] || numberToKey;
-  }, [number]);
+  };
 
   return (
     <ValueContainer color={suitColor} isReverse={isReverse}>
-      {symbol}
+      {symbol()}
     </ValueContainer>
   );
 };

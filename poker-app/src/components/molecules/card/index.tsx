@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 
 import { CardContainer, Corner, Center, SuitCol, HideContent } from "./styles";
 
@@ -13,51 +13,48 @@ export type CardProps = {
   suit: CardSuits;
 };
 
-export const Card: React.FC<CardProps> = ({ number, suit }) => {
+export const Card: React.FC<CardProps> = React.memo(({ number, suit }) => {
   // mapping number of suits on center of cards and dividing by [sides, center]
-  const suitsColMap = useMemo(
-    () => [
-      [0, 1],
-      [0, 2],
-      [0, 3],
-      [2, 0],
-      [2, 1],
-      [3, 0],
-      [3, 1],
-      [3, 2],
-      [4, 1],
-      [4, 2],
-    ],
-    []
-  );
+  const suitsColMap = [
+    [0, 2],
+    [0, 3],
+    [2, 0],
+    [2, 1],
+    [3, 0],
+    [3, 1],
+    [3, 2],
+    [4, 1],
+    [4, 2],
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 1],
+  ];
 
-  const renderColumn = useCallback(
-    (variant: "SIDE" | "CENTER") => {
-      const keyGen = v4();
-      const colPosition = variant === "CENTER" ? 1 : 0;
+  const renderColumn = (variant: "SIDE" | "CENTER") => {
+    const keyGen = v4();
+    const colPosition = variant === "CENTER" ? 1 : 0;
 
-      return (
-        <SuitCol isCenter={variant === "CENTER"}>
-          {Array(suitsColMap[number - 1][colPosition])
-            .fill(1)
-            .map((element, index, array) => (
-              <CardSuit
-                key={`${keyGen}-${index}`}
-                suit={suit}
-                isReverse={index >= array.length / 2}
-              />
-            ))}
+    return (
+      <SuitCol isCenter={variant === "CENTER"}>
+        {Array(suitsColMap[number - 2][colPosition])
+          .fill(1)
+          .map((element, index, array) => (
+            <CardSuit
+              key={`${keyGen}-${index}`}
+              suit={suit}
+              isReverse={index >= array.length / 2}
+            />
+          ))}
 
-          {variant === "CENTER" && number === 7 && (
-            <HideContent>
-              <CardSuit suit={suit} />
-            </HideContent>
-          )}
-        </SuitCol>
-      );
-    },
-    [number, suit, suitsColMap]
-  );
+        {variant === "CENTER" && number === 7 && (
+          <HideContent>
+            <CardSuit suit={suit} />
+          </HideContent>
+        )}
+      </SuitCol>
+    );
+  };
 
   return (
     <CardContainer>
@@ -65,7 +62,7 @@ export const Card: React.FC<CardProps> = ({ number, suit }) => {
         <CardValue number={number} suit={suit} />
         <CardSuit suit={suit} size={12} />
       </Corner>
-      {number < 11 ? (
+      {number < 11 || number === 14 ? (
         <Center>
           {renderColumn("SIDE")}
           {renderColumn("CENTER")}
@@ -87,6 +84,6 @@ export const Card: React.FC<CardProps> = ({ number, suit }) => {
       </Corner>
     </CardContainer>
   );
-};
+});
 
 export default Card;

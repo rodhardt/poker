@@ -4,16 +4,21 @@ import { TableContainer } from "./styles";
 
 import { Card, CardProps } from "../../molecules/";
 
+import { SingleCard } from "../../../types";
 import {
   getFlushCards,
   getStraightCards,
+  getGroupValueCards,
+  getFourOfAKind,
+  getThreeOfAKinds,
+  getPairs,
+  getFullHouse,
 } from "../../../utils/results-checkers";
 
 export type TableGameProps = {};
 
 export const TableGame: React.FC<TableGameProps> = ({}) => {
   const currentCards = [
-    { number: 1, suit: "HEARTS" },
     { number: 2, suit: "HEARTS" },
     { number: 3, suit: "SPADES" },
     { number: 4, suit: "DIAMONDS" },
@@ -26,35 +31,28 @@ export const TableGame: React.FC<TableGameProps> = ({}) => {
     { number: 11, suit: "HEARTS" },
     { number: 12, suit: "CLUBS" },
     { number: 13, suit: "HEARTS" },
+    { number: 14, suit: "HEARTS" },
   ];
 
-  const flushCards = getFlushCards([
-    { number: 7, suit: "HEARTS" },
-    { number: 7, suit: "HEARTS" },
-    { number: 1, suit: "SPADES" },
-    { number: 11, suit: "SPADES" },
-    { number: 13, suit: "SPADES" },
-    { number: 12, suit: "SPADES" },
-    { number: 10, suit: "SPADES" },
-  ]);
+  const testCards: SingleCard[] = [
+    { number: 8, suit: "HEARTS" },
+    { number: 3, suit: "HEARTS" },
+    { number: 2, suit: "SPADES" },
+    { number: 2, suit: "SPADES" },
+    { number: 3, suit: "SPADES" },
+    { number: 2, suit: "SPADES" },
+    { number: 8, suit: "SPADES" },
+  ];
 
-  const builtCards =
-    flushCards &&
-    flushCards[0][1].map((value) => {
-      return { suit: flushCards[0][0], number: value };
-    });
+  const pairs = getPairs(getGroupValueCards(testCards));
+  const trios = getThreeOfAKinds(getGroupValueCards(testCards));
 
-  const straightFlush = builtCards ? getStraightCards(builtCards) : undefined;
-
+  console.log(getFullHouse(trios, pairs));
   return (
     <TableContainer>
       <ul>
         {currentCards.map((card) => (
-          <Card
-            key={card.number}
-            number={card.number}
-            suit={card.suit as CardProps["suit"]}
-          />
+          <Card key={card.number} number={card.number} suit={card.suit as CardProps["suit"]} />
         ))}
       </ul>
     </TableContainer>
