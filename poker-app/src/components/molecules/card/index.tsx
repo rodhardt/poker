@@ -13,7 +13,7 @@ export type CardProps = {
   suit: CardSuits;
 };
 
-export const Card: React.FC<CardProps> = React.memo(({ number, suit }) => {
+export const Card: React.FC<CardProps> = ({ number, suit }) => {
   // mapping number of suits on center of cards and dividing by [sides, center]
   const suitsColMap = [
     [0, 2],
@@ -84,6 +84,6 @@ export const Card: React.FC<CardProps> = React.memo(({ number, suit }) => {
       </Corner>
     </CardContainer>
   );
-});
+};
 
 export default Card;

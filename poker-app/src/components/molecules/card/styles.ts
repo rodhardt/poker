@@ -8,7 +8,7 @@ type CardProps = {
 };
 
 export const CardContainer = styled.li`
-  width: 100px;
+  width: 100%;
   aspect-ratio: 0.7;
   padding: 2px 5px;
   display: flex;
@@ -48,8 +48,7 @@ export const Center = styled.div`
 export const SuitCol = styled.div<CardProps>`
   display: flex;
   flex-direction: column;
-  justify-content: ${(props) =>
-    props.isCenter ? "space-around" : "space-between"};
+  justify-content: ${(props) => (props.isCenter ? "space-around" : "space-between")};
   align-items: center;
   height: 100%;
 `;

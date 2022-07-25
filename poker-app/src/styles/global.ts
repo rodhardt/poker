@@ -20,6 +20,7 @@ export default createGlobalStyle`
         --mainBlack: #101010;
         --suitRed: ${SUIT_RED_COLOR};
         --suitBlack: ${SUIT_BLACK_COLOR};
+        --mainGold: #b0b010;
     }
 
     #root {
@@ -51,6 +52,10 @@ export default createGlobalStyle`
     a, a:hover, a:focus, a:active {
       text-decoration: none;
       color: inherit;
+    }
+
+    h3 {
+        font-size: 14px;
     }
 
 `;
