@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { PlayerData, TableData, SingleCard } from "../../types";
 import { FULL_DECK } from "../../constants";
+import {reOrderUtgFirst, reOrderDealerFirst} from '../../utils'
 
 type GameProviderProps = {
   children: ReactNode;
@@ -15,6 +16,7 @@ const GameContext = createContext<GameProviderData>({} as GameProviderData);
 
 export const GameProvider = ({ children }: GameProviderProps) => {
   const [currentDeck, setCurrentDeck] = useState<SingleCard[]>([...FULL_DECK]);
+  const [hasTurnChanged, setHasTurnChanged] = useState<boolean>(false)
 
   const [table, setTable] = useState<TableData>({
     pot: 0,
@@ -40,7 +42,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       chips: 1000,
       currentBet: 0,
       isActionTurn: false,
-      currentPosition: "DEALER",
+      currentPosition: undefined,
       cards: [
         { id: "AD", number: 14, suit: "DIAMONDS" },
         { id: "2C", number: 2, suit: "CLUBS" },
@@ -55,7 +57,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       chips: 1000,
       currentBet: 0,
       isActionTurn: false,
-      currentPosition: "SMALL-BLIND",
+      currentPosition: undefined,
       cards: undefined,
       hasFolded: false,
     },
@@ -67,7 +69,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       chips: 1000,
       currentBet: 0,
       isActionTurn: false,
-      currentPosition: "BIG-BLIND",
+      currentPosition: undefined,
       cards: undefined,
       hasFolded: false,
     },
@@ -113,7 +115,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       chips: 1000,
       currentBet: 0,
       isActionTurn: false,
-      currentPosition: undefined,
+      currentPosition: 'DEALER',
       cards: undefined,
       hasFolded: false,
     },
@@ -125,7 +127,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       chips: 1000,
       currentBet: 0,
       isActionTurn: false,
-      currentPosition: undefined,
+      currentPosition: 'SMALL-BLIND',
       cards: undefined,
       hasFolded: false,
     },
@@ -136,15 +138,18 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       chips: 1000,
       currentBet: 0,
       isActionTurn: false,
-      currentPosition: undefined,
+      currentPosition: 'BIG-BLIND',
       cards: undefined,
       hasFolded: false,
     },
   ]);
 
+  
+
   const changeRound = () => {
     let shufflingDeck = [...currentDeck];
-    const reset = players
+    const playersDealerFirst = reOrderDealerFirst(players)
+    const reset = playersDealerFirst
       .filter((player) => player.chips > 0)
       .map((player) => {
         return {
@@ -173,28 +178,47 @@ export const GameProvider = ({ children }: GameProviderProps) => {
               isActionTurn: index === 0,
             };
           });
-    setPlayers(positions as PlayerData[]);
+    setPlayers(reOrderUtgFirst(positions as PlayerData[]));
     setCurrentDeck(shufflingDeck);
   };
 
-  const makeBet = (id: string, amount: number) => {};
+  const changeTurn = () => {
+    // do stuff
+    setHasTurnChanged(false)
+  };
 
-  const foldTurn = (id: string) => {};
+  
 
-  const changeTurn = () => {};
+  const findNextPlayer = (currentPlayerIndex: number) => {
+    return players.slice(currentPlayerIndex, players.length).findIndex(player => player.chips > 0)
+  }
 
+  const callOrBet = (amount: number) => {
+    setTable({...table, pot: table.pot + amount})
+    const currentPlayerIndex = players.findIndex(player => player.isActionTurn)
+    const nextPlayer = findNextPlayer(currentPlayerIndex)
+    setPlayers([...players.map((player, index, array) => {
+      if (currentPlayerIndex === index) {
+        return {...player, chips: player.chips - amount, currentBet: amount}
+      } else { 
+        return {...player, isActionTurn: index === nextPlayer}
+      }
+    })])
+    if (nextPlayer < 0) {
+      setHasTurnChanged(true)
+    }
+  }
+
+  const foldTurn = (id: string) => {
+
+  };
+
+  
   useEffect(() => {
-    console.log("initial");
-    console.log(players);
-    console.log(currentDeck);
-    changeRound();
-  }, []);
-
-  useEffect(() => {
-    console.log("after");
-    console.log(players);
-    console.log(currentDeck);
-  }, [players]);
+    if (hasTurnChanged) {
+      changeTurn()
+    }
+  }, [hasTurnChanged])
 
   return (
     <GameContext.Provider
